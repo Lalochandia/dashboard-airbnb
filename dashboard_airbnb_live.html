@@ -14,31 +14,26 @@
   .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .btn { padding: 7px 14px; border-radius: 6px; border: 1px solid #1e293b; background: transparent; color: #94a3b8; font-size: 13px; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
   .btn:hover { border-color: #334155; color: #e2e8f0; }
-  .btn-refresh { padding: 7px 14px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; font-size: 13px; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
-  .btn-refresh:hover { background: #334155; color: #e2e8f0; }
+  .btn-refresh { padding: 7px 14px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; font-size: 13px; cursor: pointer; font-family: Georgia, serif; }
   .btn.active-all { border-color: #f97316; background: #f9731622; color: #f97316; }
   .btn.active-413 { border-color: #f97316; background: #f9731622; color: #f97316; }
   .btn.active-909 { border-color: #3b82f6; background: #3b82f622; color: #3b82f6; }
   .btn.active-905 { border-color: #10b981; background: #10b98122; color: #10b981; }
-  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin-bottom: 24px; }
-  .kpi { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 16px 18px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 16px 18px; border-top-width: 3px; }
   .kpi-val { font-size: 22px; font-weight: bold; margin: 6px 0 2px; }
   .kpi-sub { font-size: 11px; color: #475569; }
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .card { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 20px; }
-  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 20px; margin-bottom: 0; }
+  .mb16 { margin-bottom: 16px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { padding: 8px 12px; text-align: left; color: #64748b; font-weight: normal; font-size: 11px; letter-spacing: 1px; border-bottom: 1px solid #1e293b; }
-  td { padding: 10px 12px; border-bottom: 1px solid #0f1117; }
-  .badge { background: #10b98122; color: #10b981; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  td { padding: 9px 12px; border-bottom: 1px solid #0f1117; }
+  .badge-green { background: #10b98122; color: #10b981; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .badge-red { background: #ef444422; color: #ef4444; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
   .tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
   .tip { background: #161b27; border: 1px solid #1e293b; border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: #94a3b8; line-height: 1.5; }
-  .footer { text-align: center; font-size: 11px; color: #334155; }
-  .bar-wrap { background: #0f1117; border-radius: 3px; height: 6px; overflow: hidden; margin: 4px 0; }
-  .bar-fill { height: 100%; border-radius: 3px; }
-  .dept-row { margin-bottom: 14px; }
-  .dept-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; }
-  .dept-stats { display: flex; gap: 16px; margin-top: 4px; font-size: 11px; color: #64748b; }
+  .footer { text-align: center; font-size: 11px; color: #334155; margin-top: 16px; }
   .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #94a3b8; }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
@@ -49,8 +44,14 @@
   .status-live { background: #10b98122; color: #10b981; border: 1px solid #10b98144; }
   .status-error { background: #ef444422; color: #ef4444; border: 1px solid #ef444444; }
   .status-loading { background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f644; }
+  .section-title { font-size: 13px; color: #94a3b8; margin: 20px 0 12px; border-left: 3px solid #334155; padding-left: 10px; }
+  .waterfall-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .waterfall-label { font-size: 12px; color: #94a3b8; width: 140px; flex-shrink: 0; }
+  .waterfall-track { flex: 1; background: #0f1117; border-radius: 3px; height: 20px; overflow: hidden; position: relative; }
+  .waterfall-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: bold; min-width: 4px; }
+  .waterfall-val { font-size: 12px; color: #64748b; width: 70px; text-align: right; flex-shrink: 0; }
   @media (max-width: 700px) {
-    .charts-row, .bottom-row { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
     .kpis { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
@@ -72,14 +73,11 @@
 </div>
 
 <div id="mainContent">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div style="color:#64748b;font-size:13px">Conectando con Google Sheets...</div>
-  </div>
+  <div class="loading"><div class="spinner"></div><div style="color:#64748b;font-size:13px">Conectando con Google Sheets...</div></div>
 </div>
 
 <script>
-const SHEET_ID = '1lPcmVGxeO-GnkYXr9Za5YFcSumI_O9PTFKguNHB5nSk';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjCBMJdmzeMIRE1V_JbZP1Y8NhGa2nlupdp8Ajw_kY1ggYRFwnOGuK1oiAU68uA4CMWQ/exec';
 const SHEETS = ['413 C2', '909 Temuco', '905 Temuco'];
 const COLORS = { '413 C2': '#f97316', '909 Temuco': '#3b82f6', '905 Temuco': '#10b981' };
 const CUOTAS = { '413 C2': 359008, '909 Temuco': 243870, '905 Temuco': 387947 };
@@ -88,196 +86,159 @@ let DATA = {};
 let activeFilter = 'Todos';
 let charts = {};
 
-function fmt(n) {
-  n = Math.round(n);
-  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
-  if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
-  return '$' + n;
-}
-function fmtFull(n) {
-  return '$' + Math.round(n).toLocaleString('es-CL');
-}
-function getMonthKey(f) {
-  if (!f) return null;
-  const d = new Date(f);
-  if (isNaN(d)) return null;
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-}
-function getMonthLabel(k) {
-  const [y,m] = k.split('-');
-  return ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][parseInt(m)-1] + ' ' + y.slice(2);
-}
-
-function parseCSV(csv) {
-  const lines = csv.split('\n').map(l => l.trim()).filter(l => l);
-  const rows = lines.map(line => {
-    const result = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '"') { inQ = !inQ; }
-      else if (line[i] === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
-      else { cur += line[i]; }
-    }
-    result.push(cur.trim());
-    return result;
-  });
-  return rows;
-}
+const fmt = n => { n = Math.round(n); if (n >= 1000000) return '$'+(n/1000000).toFixed(1)+'M'; if (n >= 1000) return '$'+Math.round(n/1000)+'K'; return '$'+n; };
+const fmtFull = n => '$' + Math.round(n).toLocaleString('es-CL');
+const getMonthKey = f => { if (!f) return null; const d = new Date(f); if (isNaN(d)) return null; return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); };
+const getMonthLabel = k => { const [y,m] = k.split('-'); return ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][parseInt(m)-1]+' '+y.slice(2); };
 
 function parseSheetRows(rows) {
-  // Find header row with 'Fecha llegada'
   let headerIdx = -1;
   for (let i = 0; i < rows.length; i++) {
     if (rows[i].some(c => String(c).includes('Fecha llegada'))) { headerIdx = i; break; }
   }
-  if (headerIdx === -1) return [];
-
-  // Find cuota
+  if (headerIdx === -1) return { reservas: [], cuota: 0 };
   let cuota = 0;
-  for (let i = 0; i < headerIdx; i++) {
-    for (let j = 0; j < rows[i].length; j++) {
-      if (String(rows[i][j]).includes('Cuota') || String(rows[i][j]).includes('cuota')) {
+  for (let i = 0; i < headerIdx; i++)
+    for (let j = 0; j < rows[i].length; j++)
+      if (String(rows[i][j]).includes('Cuota') || String(rows[i][j]).includes('cuota'))
         for (let k = j+1; k < rows[i].length; k++) {
           const v = parseFloat(String(rows[i][k]).replace(/[^0-9.]/g,''));
           if (!isNaN(v) && v > 0) { cuota = v; break; }
         }
-      }
-    }
-  }
-
   const headers = rows[headerIdx];
-  const colIdx = {};
+  const ci = {};
   headers.forEach((h, i) => {
     const hl = String(h).toLowerCase();
-    if (hl.includes('fecha llegada')) colIdx.fecha = i;
-    else if (hl.includes('noches')) colIdx.noches = i;
-    else if (hl.includes('estadía') || hl.includes('estadia')) colIdx.estadia = i;
-    else if (hl.includes('limpieza')) colIdx.limpieza = i;
-    else if (hl.includes('comisión (-)') || hl.includes('comision (-)')) colIdx.comision = i;
-    else if (hl.includes('depósito') && !hl.includes('fecha')) colIdx.deposito = i;
-    else if (hl.includes('lavado')) colIdx.lavado = i;
-    else if (hl.includes('otros')) colIdx.otros = i;
-    else if (hl.includes('total')) colIdx.total = i;
-    else if (hl.includes('gastos')) colIdx.gastos = i;
+    if (hl.includes('fecha llegada')) ci.fecha = i;
+    else if (hl.includes('noches')) ci.noches = i;
+    else if (hl.includes('estadía') || hl.includes('estadia')) ci.estadia = i;
+    else if (hl.includes('limpieza')) ci.limpieza = i;
+    else if (hl.includes('comisión (-)') || hl.includes('comision (-)')) ci.comision_airbnb = i;
+    else if ((hl.includes('depósito') || hl.includes('deposito')) && !hl.includes('fecha')) ci.deposito = i;
+    else if (hl.includes('lavado')) ci.lavado = i;
+    else if (hl.includes('otros')) ci.otros = i;
+    else if (hl.includes('15%')) ci.comision15 = i;
   });
-
   const reservas = [];
-  for (let i = headerIdx + 1; i < rows.length; i++) {
+  for (let i = headerIdx+1; i < rows.length; i++) {
     const row = rows[i];
-    const estadiaRaw = colIdx.estadia !== undefined ? String(row[colIdx.estadia]||'') : '';
-    const estadia = parseFloat(estadiaRaw.replace(/[^0-9.]/g,''));
+    const estadia = parseFloat(String(row[ci.estadia]||'').replace(/[^0-9.]/g,''));
     if (isNaN(estadia) || estadia <= 0) continue;
-
-    const get = (key) => {
-      if (colIdx[key] === undefined) return 0;
-      const v = parseFloat(String(row[colIdx[key]]||'').replace(/[^0-9.-]/g,''));
-      return isNaN(v) ? 0 : v;
-    };
-
+    const get = key => { if (ci[key] === undefined) return 0; const v = parseFloat(String(row[ci[key]]||'').replace(/[^0-9.-]/g,'')); return isNaN(v) ? 0 : v; };
     let fecha = null;
-    if (colIdx.fecha !== undefined && row[colIdx.fecha]) {
-      const raw = String(row[colIdx.fecha]).trim();
-      const d = new Date(raw);
-      if (!isNaN(d)) fecha = d.toISOString().slice(0,10);
-    }
-
-    reservas.push({
-      fecha, noches: get('noches')||1, estadia,
-      limpieza: get('limpieza'), comision: get('comision'),
-      lavado: get('lavado'), otros: get('otros'),
-      total: get('total'), gastos: get('gastos'),
-    });
+    if (ci.fecha !== undefined && row[ci.fecha]) { try { const d = new Date(String(row[ci.fecha]).trim()); if (!isNaN(d)) fecha = d.toISOString().slice(0,10); } catch(e){} }
+    reservas.push({ fecha, noches: get('noches')||1, estadia, deposito: get('deposito'), limpieza: get('limpieza'), lavado: get('lavado'), otros: get('otros'), comision15: get('comision15') });
   }
   return { reservas, cuota };
 }
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjCBMJdmzeMIRE1V_JbZP1Y8NhGa2nlupdp8Ajw_kY1ggYRFwnOGuK1oiAU68uA4CMWQ/exec';
+function parseGastosFijos(rows) {
+  // Find header
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].some(c => String(c).toLowerCase().includes('fecha'))) { headerIdx = i; break; }
+  }
+  if (headerIdx === -1) headerIdx = 0;
+  const result = { '413 C2': {}, '909 Temuco': {}, '905 Temuco': {} };
+  for (let i = headerIdx+1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row[0] || !row[1] || !row[3]) continue;
+    let fecha; try { const d = new Date(String(row[0])); if (!isNaN(d)) fecha = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); } catch(e){ continue; }
+    if (!fecha) continue;
+    const depto = String(row[1]).trim();
+    const total = parseFloat(String(row[3]).replace(/[^0-9.]/g,'')) || 0;
+    const add = (d, amt) => { result[d][fecha] = (result[d][fecha]||0) + amt; };
+    if (depto.includes('909') && depto.includes('905')) { add('909 Temuco', total/2); add('905 Temuco', total/2); }
+    else if (depto.includes('413')) add('413 C2', total);
+    else if (depto.includes('909')) add('909 Temuco', total);
+    else if (depto.includes('905')) add('905 Temuco', total);
+  }
+  return result;
+}
 
 async function fetchSheet(sheetName) {
   const url = APPS_SCRIPT_URL + '?sheet=' + encodeURIComponent(sheetName);
-  console.log('Fetching:', url);
-  const resp = await fetch(url, {redirect: 'follow'});
-  console.log('Response status:', resp.status, resp.type);
-  if (!resp.ok) throw new Error('HTTP ' + resp.status + ' al cargar: ' + sheetName);
-  const raw = await resp.json();
-  console.log('Got', raw.length, 'rows for', sheetName);
-  const parsed = parseSheetRows(raw);
-  return parsed;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error('HTTP '+resp.status+' en: '+sheetName);
+  const text = await resp.text();
+  let raw; try { raw = JSON.parse(text); } catch(e) { throw new Error('Respuesta inválida para: '+sheetName); }
+  return raw;
 }
 
 async function loadAllData() {
   document.getElementById('statusBadge').className = 'status-badge status-loading';
   document.getElementById('statusBadge').textContent = 'Actualizando...';
-
   try {
-    const results = await Promise.all(SHEETS.map(s => fetchSheet(s)));
-    DATA = {};
-    SHEETS.forEach((s, i) => {
-      DATA[s] = {
-        reservas: results[i].reservas,
-        cuota: results[i].cuota || CUOTAS[s],
-        color: COLORS[s]
-      };
-    });
-
+    const [r413, r909, r905, rGastos] = await Promise.all([
+      fetchSheet('413 C2'), fetchSheet('909 Temuco'), fetchSheet('905 Temuco'), fetchSheet('Gastos Airbnb')
+    ]);
+    const parsed413 = parseSheetRows(r413);
+    const parsed909 = parseSheetRows(r909);
+    const parsed905 = parseSheetRows(r905);
+    const gastosFijos = parseGastosFijos(rGastos);
+    DATA = {
+      '413 C2':    { reservas: parsed413.reservas, cuota: parsed413.cuota || CUOTAS['413 C2'],    gastosFijos: gastosFijos['413 C2'],    color: COLORS['413 C2'] },
+      '909 Temuco':{ reservas: parsed909.reservas, cuota: parsed909.cuota || CUOTAS['909 Temuco'], gastosFijos: gastosFijos['909 Temuco'], color: COLORS['909 Temuco'] },
+      '905 Temuco':{ reservas: parsed905.reservas, cuota: parsed905.cuota || CUOTAS['905 Temuco'], gastosFijos: gastosFijos['905 Temuco'], color: COLORS['905 Temuco'] },
+    };
     document.getElementById('statusBadge').className = 'status-badge status-live';
-    const now = new Date().toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'});
-    document.getElementById('statusBadge').textContent = '● En vivo · ' + now;
-
+    document.getElementById('statusBadge').textContent = '● En vivo · ' + new Date().toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
     renderDashboard();
-  } catch (err) {
-    console.error('Dashboard error:', err);
+  } catch(err) {
+    console.error(err);
     document.getElementById('statusBadge').className = 'status-badge status-error';
-    document.getElementById('statusBadge').textContent = '⚠ ' + err.message;
-    document.getElementById('mainContent').innerHTML = '<div class="card" style="text-align:center;padding:40px;color:#ef4444">' +
-      '<div style="font-size:32px;margin-bottom:12px">⚠</div>' +
-      '<div style="font-size:14px;margin-bottom:8px">Error: ' + err.message + '</div>' +
-      '<div style="font-size:12px;color:#64748b;margin-bottom:8px;font-family:monospace">' + err.stack + '</div>' +
-      '<button class="btn-refresh" onclick="loadAllData()">↻ Reintentar</button>' +
-      '</div>';
+    document.getElementById('statusBadge').textContent = '⚠ Error';
+    document.getElementById('mainContent').innerHTML = '<div class="card" style="text-align:center;padding:40px"><div style="font-size:32px;margin-bottom:12px">⚠</div><div style="font-size:14px;color:#ef4444;margin-bottom:12px">'+err.message+'</div><button class="btn-refresh" onclick="loadAllData()">↻ Reintentar</button></div>';
   }
 }
 
 function getStats(depts) {
-  let totalIngresos=0, totalGastos=0, totalUtilidad=0, totalNoches=0, nReservas=0, cuota=0;
-  let limpieza=0, comision=0, lavado=0, otros=0;
+  let deposito=0, gastosVar=0, gastosFijos=0, utilBruta=0, utilNeta=0, noches=0, nRes=0, cuota=0, estadia=0;
   for (const d of depts) {
     if (!DATA[d]) continue;
-    cuota += DATA[d].cuota || 0;
+    cuota += DATA[d].cuota||0;
+    const meses = new Set();
     for (const r of DATA[d].reservas) {
-      totalIngresos += r.estadia;
-      totalGastos += r.gastos;
-      totalUtilidad += r.total;
-      totalNoches += r.noches;
-      nReservas++;
-      limpieza += r.limpieza;
-      comision += r.comision;
-      lavado += r.lavado;
-      otros += r.otros;
+      const mk = getMonthKey(r.fecha); if (mk) meses.add(mk);
+      deposito   += r.deposito;
+      gastosVar  += r.limpieza + r.lavado + r.otros + r.comision15;
+      utilBruta  += r.deposito - r.limpieza - r.lavado - r.otros - r.comision15;
+      estadia    += r.estadia;
+      noches     += r.noches;
+      nRes++;
     }
+    for (const mes of meses) gastosFijos += DATA[d].gastosFijos[mes]||0;
+    utilNeta = utilBruta - gastosFijos;
   }
-  const margen = totalIngresos > 0 ? (totalUtilidad/totalIngresos)*100 : 0;
-  const ppcNoche = totalNoches > 0 ? totalIngresos/totalNoches : 0;
-  return {totalIngresos, totalGastos, totalUtilidad, totalNoches, nReservas, cuota, margen, ppcNoche, limpieza, comision, lavado, otros};
+  const margen = deposito > 0 ? (utilBruta/deposito)*100 : 0;
+  const margenNeto = deposito > 0 ? (utilNeta/deposito)*100 : 0;
+  const ppcNoche = noches > 0 ? estadia/noches : 0;
+  return { deposito, gastosVar, gastosFijos, utilBruta, utilNeta, noches, nRes, cuota, margen, margenNeto, ppcNoche, estadia };
 }
 
 function getMonthlyData() {
   const map = {};
   for (const d of SHEETS) {
     if (!DATA[d]) continue;
+    const mesesConReservas = new Set();
     for (const r of DATA[d].reservas) {
       const mk = getMonthKey(r.fecha); if (!mk) continue;
-      if (!map[mk]) map[mk] = {mes: getMonthLabel(mk), key: mk};
-      map[mk][d+'_i'] = (map[mk][d+'_i']||0) + r.estadia;
-      map[mk][d+'_u'] = (map[mk][d+'_u']||0) + r.total;
+      mesesConReservas.add(mk);
+      if (!map[mk]) map[mk] = { mes: getMonthLabel(mk), key: mk };
+      map[mk][d+'_dep'] = (map[mk][d+'_dep']||0) + r.deposito;
+      map[mk][d+'_gvar'] = (map[mk][d+'_gvar']||0) + r.limpieza + r.lavado + r.otros + r.comision15;
+      map[mk][d+'_util'] = (map[mk][d+'_util']||0) + r.deposito - r.limpieza - r.lavado - r.otros - r.comision15;
+    }
+    for (const mk of mesesConReservas) {
+      const gf = DATA[d].gastosFijos[mk]||0;
+      map[mk][d+'_gfijo'] = (map[mk][d+'_gfijo']||0) + gf;
+      map[mk][d+'_neta'] = (map[mk][d+'_util']||0) - gf;
     }
   }
   return Object.values(map).sort((a,b) => a.key.localeCompare(b.key));
 }
 
-function destroyChart(id) {
-  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
-}
+function destroyChart(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
 
 function setFilter(f) {
   activeFilter = f;
@@ -295,147 +256,140 @@ function setFilter(f) {
 }
 
 function renderDashboard() {
-  document.getElementById('mainContent').innerHTML = `
-    <div class="kpis" id="kpis"></div>
-    <div class="charts-row">
-      <div class="card">
-        <div class="label" style="margin-bottom:12px">Ingresos por mes</div>
-        <div class="legend" id="legend-ingresos"></div>
-        <div style="position:relative;height:220px"><canvas id="chartIngresos"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="label" style="margin-bottom:12px">Utilidad neta por mes</div>
-        <div class="legend" id="legend-utilidad"></div>
-        <div style="position:relative;height:220px"><canvas id="chartUtilidad"></canvas></div>
-      </div>
-    </div>
-    <div class="bottom-row">
-      <div class="card">
-        <div class="label" style="margin-bottom:12px">Desglose de gastos</div>
-        <div style="display:flex;align-items:center;gap:16px">
-          <div style="position:relative;height:180px;width:180px;flex-shrink:0"><canvas id="chartGastos"></canvas></div>
-          <div id="gastosLegend"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="label" style="margin-bottom:16px">Comparativa por depto</div>
-        <div id="deptoComparativa"></div>
-      </div>
-    </div>
-    <div class="card" style="margin-bottom:16px">
-      <div class="label" style="margin-bottom:16px">&#127942; Top 5 reservas más rentables</div>
-      <div style="overflow-x:auto"><table>
-        <thead><tr>
-          <th>Depto</th><th>Fecha</th><th>Noches</th><th>Estadía</th><th>Gastos</th><th>Utilidad</th><th>Margen</th>
-        </tr></thead>
-        <tbody id="topTable"></tbody>
-      </table></div>
-    </div>
-    <div class="tips">
-      <div class="tip"><span style="font-size:16px">&#128161;</span><span>905 Temuco tiene el precio/noche más alto. Evalúa replicar esa estrategia en los otros deptos.</span></div>
-      <div class="tip"><span style="font-size:16px">&#128197;</span><span>Estadías largas (7+ noches) generan el mejor margen. Ofrece descuento por semana completa.</span></div>
-      <div class="tip"><span style="font-size:16px">&#129529;</span><span>Limpieza fija reduce margen en estadías cortas. Considera mínimo 2 noches por reserva.</span></div>
-      <div class="tip"><span style="font-size:16px">&#128200;</span><span>Ajusta precios dinámicamente en fines de semana y feriados para maximizar RevPAR.</span></div>
-    </div>
-    <div class="footer">Dashboard Airbnb · Datos de Google Sheets · ${new Date().toLocaleDateString('es-CL')}</div>
-  `;
-
   const depts = activeFilter === 'Todos' ? SHEETS : [activeFilter];
   const s = getStats(depts);
-
-  // KPIs
-  const kpiData = [
-    {label:'Ingresos Brutos', val:fmt(s.totalIngresos), sub:'estadía total', color:'#3b82f6'},
-    {label:'Utilidad Neta', val:fmt(s.totalUtilidad), sub:`margen ${s.margen.toFixed(1)}%`, color:'#10b981'},
-    {label:'Gastos Variables', val:fmt(s.totalGastos), sub:'limpieza + comisiones', color:'#f97316'},
-    {label:'Noches Arrendadas', val:s.totalNoches, sub:`${s.nReservas} reservas`, color:'#a855f7'},
-    {label:'Precio / Noche', val:fmt(s.ppcNoche), sub:'promedio', color:'#f59e0b'},
-    {label:'Cuota Mensual', val:fmt(s.cuota), sub:'crédito hipotecario', color:'#ef4444'},
-  ];
-  document.getElementById('kpis').innerHTML = kpiData.map(k => `
-    <div class="kpi" style="border-top:3px solid ${k.color}">
-      <div class="label">${k.label}</div>
-      <div class="kpi-val" style="color:${k.color}">${k.val}</div>
-      <div class="kpi-sub">${k.sub}</div>
-    </div>`).join('');
-
-  // Charts
   const monthly = getMonthlyData();
   const labels = monthly.map(m => m.mes);
 
-  document.getElementById('legend-ingresos').innerHTML =
-  document.getElementById('legend-utilidad').innerHTML =
-    depts.map(d => `<span class="legend-item"><span class="legend-dot" style="background:${COLORS[d]}"></span>${d}</span>`).join('');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="kpis" id="kpis"></div>
+    <div class="section-title">Flujo de caja mensual</div>
+    <div class="charts-row mb16">
+      <div class="card">
+        <div class="label" style="margin-bottom:10px">Depósito vs Gastos por mes</div>
+        <div class="legend" id="leg1"></div>
+        <div style="position:relative;height:220px"><canvas id="c1"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:10px">Utilidad bruta y neta por mes</div>
+        <div class="legend" id="leg2"></div>
+        <div style="position:relative;height:220px"><canvas id="c2"></canvas></div>
+      </div>
+    </div>
+    <div class="section-title">Resumen por departamento</div>
+    <div class="charts-row mb16">
+      <div class="card">
+        <div class="label" style="margin-bottom:14px">Cascada financiera (acumulado)</div>
+        <div id="waterfall"></div>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:14px">Comparativa deptos</div>
+        <div id="comparativa"></div>
+      </div>
+    </div>
+    <div class="section-title">Top reservas y estrategias</div>
+    <div class="charts-row mb16">
+      <div class="card">
+        <div class="label" style="margin-bottom:12px">&#127942; Top 5 reservas más rentables</div>
+        <div style="overflow-x:auto"><table>
+          <thead><tr><th>Depto</th><th>Fecha</th><th>Noches</th><th>Depósito</th><th>Gastos var.</th><th>Utilidad</th><th>Margen</th></tr></thead>
+          <tbody id="topTable"></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:14px">Gastos fijos por mes</div>
+        <div style="position:relative;height:220px"><canvas id="c3"></canvas></div>
+      </div>
+    </div>
+    <div class="section-title">&#128200; Estrategias para maximizar utilidad</div>
+    <div class="tips" id="tips"></div>
+    <div class="footer">Dashboard Airbnb · Google Sheets en vivo · ${new Date().toLocaleDateString('es-CL')}</div>
+  `;
 
-  destroyChart('chartIngresos');
-  charts['chartIngresos'] = new Chart(document.getElementById('chartIngresos'), {
-    type: 'bar',
-    data: { labels, datasets: depts.map(d => ({
-      label: d, data: monthly.map(m => m[d+'_i']||0),
-      backgroundColor: COLORS[d], borderRadius: 3
-    }))},
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
-      scales:{
-        x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}},
-        y:{ticks:{color:'#64748b',font:{size:10},callback: v => fmt(v)},grid:{color:'#1e293b'},border:{display:false}}
-      }}
+  // KPIs
+  const kpiData = [
+    { label:'Depósito Total',    val: fmt(s.deposito),   sub: 'lo que entra a tu cuenta',      color:'#3b82f6' },
+    { label:'Gastos Variables',  val: fmt(s.gastosVar),  sub: 'limpz + lavado + comisión 15%', color:'#f97316' },
+    { label:'Gastos Fijos',      val: fmt(s.gastosFijos),sub: 'agua, luz, GC, etc.',            color:'#a855f7' },
+    { label:'Utilidad Bruta',    val: fmt(s.utilBruta),  sub: 'margen '+s.margen.toFixed(1)+'%', color:'#10b981' },
+    { label:'Utilidad Neta',     val: fmt(s.utilNeta),   sub: 'después de gastos fijos',        color: s.utilNeta >= 0 ? '#10b981' : '#ef4444' },
+    { label:'Precio / Noche',    val: fmt(s.ppcNoche),   sub: s.noches+' noches · '+s.nRes+' reservas', color:'#f59e0b' },
+  ];
+  document.getElementById('kpis').innerHTML = kpiData.map(k =>
+    `<div class="kpi" style="border-top-color:${k.color}"><div class="label">${k.label}</div><div class="kpi-val" style="color:${k.color}">${k.val}</div><div class="kpi-sub">${k.sub}</div></div>`
+  ).join('');
+
+  // Chart 1: Depósito vs Gastos
+  const c1Depts = activeFilter === 'Todos' ? SHEETS : [activeFilter];
+  document.getElementById('leg1').innerHTML = c1Depts.map(d =>
+    `<span class="legend-item"><span class="legend-dot" style="background:${COLORS[d]}"></span>${d}</span>`
+  ).join('');
+  destroyChart('c1');
+  charts['c1'] = new Chart(document.getElementById('c1'), {
+    type:'bar',
+    data:{ labels, datasets: c1Depts.map(d => ({ label:d, data: monthly.map(m => m[d+'_dep']||0), backgroundColor: COLORS[d], borderRadius:3 })) },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
+      scales:{ x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}}, y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmt(v)},grid:{color:'#1e293b'},border:{display:false}} }}
   });
 
-  destroyChart('chartUtilidad');
-  charts['chartUtilidad'] = new Chart(document.getElementById('chartUtilidad'), {
-    type: 'line',
-    data: { labels, datasets: depts.map(d => ({
-      label: d, data: monthly.map(m => m[d+'_u']||0),
-      borderColor: COLORS[d], backgroundColor: COLORS[d]+'33',
-      borderWidth:2, pointRadius:3, pointBackgroundColor: COLORS[d], tension:0.3
-    }))},
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
-      scales:{
-        x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}},
-        y:{ticks:{color:'#64748b',font:{size:10},callback: v => fmt(v)},grid:{color:'#1e293b'},border:{display:false}}
-      }}
+  // Chart 2: Utilidad bruta y neta
+  document.getElementById('leg2').innerHTML = c1Depts.map(d =>
+    `<span class="legend-item"><span class="legend-dot" style="background:${COLORS[d]}"></span>${d} bruta</span>`+
+    `<span class="legend-item"><span class="legend-dot" style="background:${COLORS[d]}88"></span>${d} neta</span>`
+  ).join('');
+  destroyChart('c2');
+  const c2datasets = [];
+  c1Depts.forEach(d => {
+    c2datasets.push({ label:d+' bruta', data: monthly.map(m => m[d+'_util']||0), borderColor: COLORS[d], backgroundColor: COLORS[d]+'33', borderWidth:2, pointRadius:3, tension:0.3 });
+    c2datasets.push({ label:d+' neta',  data: monthly.map(m => m[d+'_neta']||0), borderColor: COLORS[d]+'88', backgroundColor: 'transparent', borderWidth:1, borderDash:[4,4], pointRadius:2, tension:0.3 });
+  });
+  charts['c2'] = new Chart(document.getElementById('c2'), {
+    type:'line', data:{ labels, datasets: c2datasets },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
+      scales:{ x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}}, y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmt(v)},grid:{color:'#1e293b'},border:{display:false}} }}
   });
 
-  const pieData = [
-    {name:'Limpieza', val:s.limpieza, color:'#f97316'},
-    {name:'Comisión Airbnb', val:s.comision, color:'#3b82f6'},
-    {name:'Lavado', val:s.lavado, color:'#10b981'},
-    {name:'Otros', val:s.otros, color:'#a855f7'},
-  ].filter(x => x.val > 0);
+  // Waterfall
+  const wfEl = document.getElementById('waterfall');
+  const wfMax = s.deposito;
+  const wfItems = [
+    { label:'Depósito recibido', val: s.deposito,    color:'#3b82f6' },
+    { label:'- Gastos variables', val: -s.gastosVar,  color:'#f97316' },
+    { label:'= Utilidad bruta',  val: s.utilBruta,   color:'#10b981' },
+    { label:'- Gastos fijos',    val: -s.gastosFijos, color:'#a855f7' },
+    { label:'= Utilidad neta',   val: s.utilNeta,    color: s.utilNeta >= 0 ? '#10b981' : '#ef4444' },
+    { label:'- Cuota hipoteca',  val: -s.cuota,      color:'#ef4444' },
+    { label:'= Resultado final', val: s.utilNeta - s.cuota, color: (s.utilNeta-s.cuota) >= 0 ? '#10b981':'#ef4444' },
+  ];
+  wfEl.innerHTML = wfItems.map(w => {
+    const pct = Math.min(100, Math.abs(w.val)/wfMax*100);
+    return `<div class="waterfall-bar">
+      <div class="waterfall-label">${w.label}</div>
+      <div class="waterfall-track"><div class="waterfall-fill" style="width:${pct}%;background:${w.color}22;border-left:3px solid ${w.color}"></div></div>
+      <div class="waterfall-val" style="color:${w.color}">${fmt(w.val)}</div>
+    </div>`;
+  }).join('');
 
-  destroyChart('chartGastos');
-  charts['chartGastos'] = new Chart(document.getElementById('chartGastos'), {
-    type: 'doughnut',
-    data: { labels: pieData.map(x=>x.name),
-      datasets:[{data: pieData.map(x=>x.val), backgroundColor: pieData.map(x=>x.color), borderWidth:0, hoverOffset:4}]},
-    options: { responsive:true, maintainAspectRatio:false, cutout:'55%',
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}}}
-  });
-
-  document.getElementById('gastosLegend').innerHTML = pieData.map(x => `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-      <div style="width:10px;height:10px;border-radius:2px;background:${x.color};flex-shrink:0"></div>
-      <div><div style="font-size:11px;color:#94a3b8">${x.name}</div><div style="font-size:13px;color:#e2e8f0">${fmt(x.val)}</div></div>
-    </div>`).join('');
-
-  // Comparativa
-  const maxIng = Math.max(...SHEETS.map(d => DATA[d] ? getStats([d]).totalIngresos : 0));
-  document.getElementById('deptoComparativa').innerHTML = SHEETS.map(d => {
+  // Comparativa deptos
+  const maxDep = Math.max(...SHEETS.map(d => DATA[d] ? getStats([d]).deposito : 0));
+  document.getElementById('comparativa').innerHTML = SHEETS.map(d => {
     if (!DATA[d]) return '';
     const sd = getStats([d]);
-    const barW = Math.min(100, maxIng > 0 ? (sd.totalIngresos/maxIng)*100 : 0);
-    return `<div class="dept-row">
-      <div class="dept-meta">
-        <span style="font-size:13px;color:${COLORS[d]}">${d}</span>
-        <span style="font-size:12px;color:#94a3b8">Margen ${Math.round(sd.margen)}% · Cuota ${(sd.totalUtilidad/sd.cuota).toFixed(1)}x</span>
+    const bw = Math.min(100, maxDep > 0 ? (sd.deposito/maxDep)*100 : 0);
+    const eq = sd.cuota > 0 ? (sd.utilNeta/sd.cuota).toFixed(1) : '—';
+    return `<div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px">
+        <span style="color:${COLORS[d]}">${d}</span>
+        <span style="font-size:11px;color:#94a3b8">Margen ${Math.round(sd.margen)}% · Cubre cuota ${eq}x</span>
       </div>
-      <div class="bar-wrap"><div class="bar-fill" style="width:${barW}%;background:${COLORS[d]}"></div></div>
-      <div class="dept-stats">
-        <span>Ingreso: <span style="color:#94a3b8">${fmt(sd.totalIngresos)}</span></span>
-        <span>Utilidad: <span style="color:#10b981">${fmt(sd.totalUtilidad)}</span></span>
-        <span>${sd.nReservas} reservas</span>
+      <div style="background:#0f1117;border-radius:3px;height:6px;overflow:hidden;margin-bottom:4px">
+        <div style="width:${bw}%;background:${COLORS[d]};height:100%;border-radius:3px"></div>
+      </div>
+      <div style="display:flex;gap:12px;font-size:11px;color:#64748b">
+        <span>Dep: <span style="color:#94a3b8">${fmt(sd.deposito)}</span></span>
+        <span>G.Var: <span style="color:#f97316">${fmt(sd.gastosVar)}</span></span>
+        <span>G.Fijo: <span style="color:#a855f7">${fmt(sd.gastosFijos)}</span></span>
+        <span>Neta: <span style="color:${sd.utilNeta>=0?'#10b981':'#ef4444'}">${fmt(sd.utilNeta)}</span></span>
       </div>
     </div>`;
   }).join('');
@@ -444,21 +398,49 @@ function renderDashboard() {
   let all = [];
   for (const d of SHEETS) {
     if (!DATA[d]) continue;
-    for (const r of DATA[d].reservas) all.push({...r, depto:d});
+    for (const r of DATA[d].reservas) {
+      const util = r.deposito - r.limpieza - r.lavado - r.otros - r.comision15;
+      all.push({...r, depto:d, util});
+    }
   }
-  all.sort((a,b) => b.total - a.total);
+  all.sort((a,b) => b.util - a.util);
   document.getElementById('topTable').innerHTML = all.slice(0,5).map(r => {
-    const margen = r.estadia > 0 ? Math.round((r.total/r.estadia)*100) : 0;
+    const gastosVar = r.limpieza + r.lavado + r.otros + r.comision15;
+    const margen = r.deposito > 0 ? Math.round((r.util/r.deposito)*100) : 0;
     return `<tr>
       <td><span style="color:${COLORS[r.depto]};font-weight:bold">${r.depto}</span></td>
       <td style="color:#94a3b8">${r.fecha||'—'}</td>
       <td style="color:#94a3b8;text-align:center">${r.noches}</td>
-      <td>${fmtFull(r.estadia)}</td>
-      <td style="color:#f97316">${fmtFull(r.gastos)}</td>
-      <td style="color:#10b981;font-weight:bold">${fmtFull(r.total)}</td>
-      <td><span class="badge">${margen}%</span></td>
+      <td>${fmtFull(r.deposito)}</td>
+      <td style="color:#f97316">${fmtFull(gastosVar)}</td>
+      <td style="color:#10b981;font-weight:bold">${fmtFull(r.util)}</td>
+      <td><span class="badge-green">${margen}%</span></td>
     </tr>`;
   }).join('');
+
+  // Chart 3: Gastos fijos por mes
+  destroyChart('c3');
+  const gfDepts = activeFilter === 'Todos' ? SHEETS : [activeFilter];
+  charts['c3'] = new Chart(document.getElementById('c3'), {
+    type:'bar',
+    data:{ labels, datasets: gfDepts.map(d => ({ label:d, data: monthly.map(m => m[d+'_gfijo']||0), backgroundColor: COLORS[d]+'88', borderRadius:3 })) },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
+      scales:{ x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}}, y:{ticks:{color:'#64748b',font:{size:10},callback:v=>fmt(v)},grid:{color:'#1e293b'},border:{display:false}} }}
+  });
+
+  // Smart tips based on data
+  const tips = [];
+  const ppcNoche = s.ppcNoche;
+  const margenNeto = s.margenNeto;
+  if (s.gastosFijos > s.gastosVar) tips.push({ icon:'&#9888;', txt:'Los gastos fijos ('+fmt(s.gastosFijos)+') superan los variables. Revisa si hay gastos fijos que puedas reducir o compartir entre deptos.' });
+  else tips.push({ icon:'&#128200;', txt:'Precio promedio por noche: '+fmt(ppcNoche)+'. Sube tarifas un 10% en temporada alta para aumentar utilidad sin más costos.' });
+  if (s.utilNeta < s.cuota) tips.push({ icon:'&#128680;', txt:'La utilidad neta ('+fmt(s.utilNeta)+') no cubre la cuota ('+fmt(s.cuota)+'). Necesitas aumentar ocupación o reducir gastos fijos.' });
+  else tips.push({ icon:'&#9989;', txt:'La utilidad neta cubre '+((s.utilNeta/s.cuota)*100).toFixed(0)+'% de la cuota. Considera acumular excedente para meses de menor ocupación.' });
+  tips.push({ icon:'&#128197;', txt:'Estadías de 3+ noches generan mejor margen porque el costo de limpieza se amortiza. Evalúa mínimo 2 noches.' });
+  tips.push({ icon:'&#128161;', txt:'Monitorea mensualmente: si gastos fijos suben y ocupación baja, el punto de equilibrio sube y la utilidad se comprime rápido.' });
+  document.getElementById('tips').innerHTML = tips.map(t =>
+    `<div class="tip"><span style="font-size:16px">${t.icon}</span><span>${t.txt}</span></div>`
+  ).join('');
 }
 
 loadAllData();
