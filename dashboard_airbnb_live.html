@@ -195,9 +195,12 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjCBMJdmzeMIRE
 
 async function fetchSheet(sheetName) {
   const url = APPS_SCRIPT_URL + '?sheet=' + encodeURIComponent(sheetName);
-  const resp = await fetch(url, {redirect: 'follow', mode: 'cors'});
-  if (!resp.ok) throw new Error('Error al cargar hoja: ' + sheetName);
+  console.log('Fetching:', url);
+  const resp = await fetch(url, {redirect: 'follow'});
+  console.log('Response status:', resp.status, resp.type);
+  if (!resp.ok) throw new Error('HTTP ' + resp.status + ' al cargar: ' + sheetName);
   const raw = await resp.json();
+  console.log('Got', raw.length, 'rows for', sheetName);
   const parsed = parseSheetRows(raw);
   return parsed;
 }
@@ -219,19 +222,19 @@ async function loadAllData() {
 
     document.getElementById('statusBadge').className = 'status-badge status-live';
     const now = new Date().toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'});
-    document.getElementById('statusBadge').textContent = `● En vivo · ${now}`;
+    document.getElementById('statusBadge').textContent = '● En vivo · ' + now;
 
     renderDashboard();
   } catch (err) {
+    console.error('Dashboard error:', err);
     document.getElementById('statusBadge').className = 'status-badge status-error';
-    document.getElementById('statusBadge').textContent = '⚠ Error de conexión';
-    document.getElementById('mainContent').innerHTML = `
-      <div class="card" style="text-align:center;padding:40px;color:#ef4444">
-        <div style="font-size:32px;margin-bottom:12px">⚠</div>
-        <div style="font-size:14px;margin-bottom:8px">No se pudo conectar con Google Sheets</div>
-        <div style="font-size:12px;color:#64748b;margin-bottom:20px">Verifica que la planilla esté compartida como "Cualquier persona con el enlace"</div>
-        <button class="btn-refresh" onclick="loadAllData()">↻ Reintentar</button>
-      </div>`;
+    document.getElementById('statusBadge').textContent = '⚠ ' + err.message;
+    document.getElementById('mainContent').innerHTML = '<div class="card" style="text-align:center;padding:40px;color:#ef4444">' +
+      '<div style="font-size:32px;margin-bottom:12px">⚠</div>' +
+      '<div style="font-size:14px;margin-bottom:8px">Error: ' + err.message + '</div>' +
+      '<div style="font-size:12px;color:#64748b;margin-bottom:8px;font-family:monospace">' + err.stack + '</div>' +
+      '<button class="btn-refresh" onclick="loadAllData()">↻ Reintentar</button>' +
+      '</div>';
   }
 }
 
