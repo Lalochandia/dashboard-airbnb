@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Airbnb — Live</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #0f1117; color: #e2e8f0; padding: 24px; min-height: 100vh; }
+  h1 { font-size: 26px; font-weight: normal; color: #f1f5f9; letter-spacing: -0.5px; }
+  .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748b; }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid #1e293b; margin-bottom: 24px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .btn { padding: 7px 14px; border-radius: 6px; border: 1px solid #1e293b; background: transparent; color: #94a3b8; font-size: 13px; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
+  .btn:hover { border-color: #334155; color: #e2e8f0; }
+  .btn-refresh { padding: 7px 14px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; font-size: 13px; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
+  .btn-refresh:hover { background: #334155; color: #e2e8f0; }
+  .btn.active-all { border-color: #f97316; background: #f9731622; color: #f97316; }
+  .btn.active-413 { border-color: #f97316; background: #f9731622; color: #f97316; }
+  .btn.active-909 { border-color: #3b82f6; background: #3b82f622; color: #3b82f6; }
+  .btn.active-905 { border-color: #10b981; background: #10b98122; color: #10b981; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 16px 18px; }
+  .kpi-val { font-size: 22px; font-weight: bold; margin: 6px 0 2px; }
+  .kpi-sub { font-size: 11px; color: #475569; }
+  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card { background: #161b27; border: 1px solid #1e293b; border-radius: 10px; padding: 20px; }
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { padding: 8px 12px; text-align: left; color: #64748b; font-weight: normal; font-size: 11px; letter-spacing: 1px; border-bottom: 1px solid #1e293b; }
+  td { padding: 10px 12px; border-bottom: 1px solid #0f1117; }
+  .badge { background: #10b98122; color: #10b981; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .tips { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .tip { background: #161b27; border: 1px solid #1e293b; border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: #94a3b8; line-height: 1.5; }
+  .footer { text-align: center; font-size: 11px; color: #334155; }
+  .bar-wrap { background: #0f1117; border-radius: 3px; height: 6px; overflow: hidden; margin: 4px 0; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .dept-row { margin-bottom: 14px; }
+  .dept-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px; }
+  .dept-stats { display: flex; gap: 16px; margin-top: 4px; font-size: 11px; color: #64748b; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #94a3b8; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .loading { display: flex; align-items: center; justify-content: center; height: 300px; flex-direction: column; gap: 16px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid #1e293b; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .status-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; }
+  .status-live { background: #10b98122; color: #10b981; border: 1px solid #10b98144; }
+  .status-error { background: #ef444422; color: #ef4444; border: 1px solid #ef444444; }
+  .status-loading { background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f644; }
+  @media (max-width: 700px) {
+    .charts-row, .bottom-row { grid-template-columns: 1fr; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="label" style="margin-bottom:4px">Gestión de Propiedades</div>
+    <h1>Dashboard Airbnb <span id="statusBadge" class="status-badge status-loading">Cargando...</span></h1>
+  </div>
+  <div class="filters">
+    <button class="btn active-all" onclick="setFilter('Todos')">Todos</button>
+    <button class="btn" onclick="setFilter('413 C2')">413 C2</button>
+    <button class="btn" onclick="setFilter('909 Temuco')">909 Temuco</button>
+    <button class="btn" onclick="setFilter('905 Temuco')">905 Temuco</button>
+    <button class="btn-refresh" onclick="loadAllData()">↻ Actualizar</button>
+  </div>
+</div>
+
+<div id="mainContent">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div style="color:#64748b;font-size:13px">Conectando con Google Sheets...</div>
+  </div>
+</div>
+
+<script>
+const SHEET_ID = '1_dNL66zF3ae13XKM4jxrVLWASEKESZkT';
+const SHEETS = ['413 C2', '909 Temuco', '905 Temuco'];
+const COLORS = { '413 C2': '#f97316', '909 Temuco': '#3b82f6', '905 Temuco': '#10b981' };
+const CUOTAS = { '413 C2': 359008, '909 Temuco': 243870, '905 Temuco': 387947 };
+
+let DATA = {};
+let activeFilter = 'Todos';
+let charts = {};
+
+function fmt(n) {
+  n = Math.round(n);
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + Math.round(n/1000) + 'K';
+  return '$' + n;
+}
+function fmtFull(n) {
+  return '$' + Math.round(n).toLocaleString('es-CL');
+}
+function getMonthKey(f) {
+  if (!f) return null;
+  const d = new Date(f);
+  if (isNaN(d)) return null;
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+function getMonthLabel(k) {
+  const [y,m] = k.split('-');
+  return ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][parseInt(m)-1] + ' ' + y.slice(2);
+}
+
+function parseCSV(csv) {
+  const lines = csv.split('\n').map(l => l.trim()).filter(l => l);
+  const rows = lines.map(line => {
+    const result = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] === '"') { inQ = !inQ; }
+      else if (line[i] === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+      else { cur += line[i]; }
+    }
+    result.push(cur.trim());
+    return result;
+  });
+  return rows;
+}
+
+function parseSheetRows(rows) {
+  // Find header row with 'Fecha llegada'
+  let headerIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].some(c => c.includes('Fecha llegada'))) { headerIdx = i; break; }
+  }
+  if (headerIdx === -1) return [];
+
+  // Find cuota
+  let cuota = 0;
+  for (let i = 0; i < headerIdx; i++) {
+    for (let j = 0; j < rows[i].length; j++) {
+      if (rows[i][j].includes('Cuota') || rows[i][j].includes('cuota')) {
+        for (let k = j+1; k < rows[i].length; k++) {
+          const v = parseFloat(rows[i][k].replace(/[^0-9.]/g,''));
+          if (!isNaN(v) && v > 0) { cuota = v; break; }
+        }
+      }
+    }
+  }
+
+  const headers = rows[headerIdx];
+  const colIdx = {};
+  headers.forEach((h, i) => {
+    const hl = h.toLowerCase();
+    if (hl.includes('fecha llegada')) colIdx.fecha = i;
+    else if (hl.includes('noches')) colIdx.noches = i;
+    else if (hl.includes('estadía') || hl.includes('estadia')) colIdx.estadia = i;
+    else if (hl.includes('limpieza')) colIdx.limpieza = i;
+    else if (hl.includes('comisión (-)') || hl.includes('comision (-)')) colIdx.comision = i;
+    else if (hl.includes('depósito') && !hl.includes('fecha')) colIdx.deposito = i;
+    else if (hl.includes('lavado')) colIdx.lavado = i;
+    else if (hl.includes('otros')) colIdx.otros = i;
+    else if (hl.includes('total')) colIdx.total = i;
+    else if (hl.includes('gastos')) colIdx.gastos = i;
+  });
+
+  const reservas = [];
+  for (let i = headerIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    const estadiaRaw = colIdx.estadia !== undefined ? row[colIdx.estadia] : '';
+    const estadia = parseFloat(estadiaRaw.replace(/[^0-9.]/g,''));
+    if (isNaN(estadia) || estadia <= 0) continue;
+
+    const get = (key) => {
+      if (colIdx[key] === undefined) return 0;
+      const v = parseFloat((row[colIdx[key]]||'').replace(/[^0-9.-]/g,''));
+      return isNaN(v) ? 0 : v;
+    };
+
+    let fecha = null;
+    if (colIdx.fecha !== undefined && row[colIdx.fecha]) {
+      const raw = row[colIdx.fecha].trim();
+      const d = new Date(raw);
+      if (!isNaN(d)) fecha = d.toISOString().slice(0,10);
+    }
+
+    reservas.push({
+      fecha, noches: get('noches')||1, estadia,
+      limpieza: get('limpieza'), comision: get('comision'),
+      lavado: get('lavado'), otros: get('otros'),
+      total: get('total'), gastos: get('gastos'),
+    });
+  }
+  return { reservas, cuota };
+}
+
+async function fetchSheet(sheetName) {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`Error al cargar hoja: ${sheetName}`);
+  const text = await resp.text();
+  const rows = parseCSV(text);
+  const parsed = parseSheetRows(rows);
+  return parsed;
+}
+
+async function loadAllData() {
+  document.getElementById('statusBadge').className = 'status-badge status-loading';
+  document.getElementById('statusBadge').textContent = 'Actualizando...';
+
+  try {
+    const results = await Promise.all(SHEETS.map(s => fetchSheet(s)));
+    DATA = {};
+    SHEETS.forEach((s, i) => {
+      DATA[s] = {
+        reservas: results[i].reservas,
+        cuota: results[i].cuota || CUOTAS[s],
+        color: COLORS[s]
+      };
+    });
+
+    document.getElementById('statusBadge').className = 'status-badge status-live';
+    const now = new Date().toLocaleTimeString('es-CL', {hour:'2-digit',minute:'2-digit'});
+    document.getElementById('statusBadge').textContent = `● En vivo · ${now}`;
+
+    renderDashboard();
+  } catch (err) {
+    document.getElementById('statusBadge').className = 'status-badge status-error';
+    document.getElementById('statusBadge').textContent = '⚠ Error de conexión';
+    document.getElementById('mainContent').innerHTML = `
+      <div class="card" style="text-align:center;padding:40px;color:#ef4444">
+        <div style="font-size:32px;margin-bottom:12px">⚠</div>
+        <div style="font-size:14px;margin-bottom:8px">No se pudo conectar con Google Sheets</div>
+        <div style="font-size:12px;color:#64748b;margin-bottom:20px">Verifica que la planilla esté compartida como "Cualquier persona con el enlace"</div>
+        <button class="btn-refresh" onclick="loadAllData()">↻ Reintentar</button>
+      </div>`;
+  }
+}
+
+function getStats(depts) {
+  let totalIngresos=0, totalGastos=0, totalUtilidad=0, totalNoches=0, nReservas=0, cuota=0;
+  let limpieza=0, comision=0, lavado=0, otros=0;
+  for (const d of depts) {
+    if (!DATA[d]) continue;
+    cuota += DATA[d].cuota || 0;
+    for (const r of DATA[d].reservas) {
+      totalIngresos += r.estadia;
+      totalGastos += r.gastos;
+      totalUtilidad += r.total;
+      totalNoches += r.noches;
+      nReservas++;
+      limpieza += r.limpieza;
+      comision += r.comision;
+      lavado += r.lavado;
+      otros += r.otros;
+    }
+  }
+  const margen = totalIngresos > 0 ? (totalUtilidad/totalIngresos)*100 : 0;
+  const ppcNoche = totalNoches > 0 ? totalIngresos/totalNoches : 0;
+  return {totalIngresos, totalGastos, totalUtilidad, totalNoches, nReservas, cuota, margen, ppcNoche, limpieza, comision, lavado, otros};
+}
+
+function getMonthlyData() {
+  const map = {};
+  for (const d of SHEETS) {
+    if (!DATA[d]) continue;
+    for (const r of DATA[d].reservas) {
+      const mk = getMonthKey(r.fecha); if (!mk) continue;
+      if (!map[mk]) map[mk] = {mes: getMonthLabel(mk), key: mk};
+      map[mk][d+'_i'] = (map[mk][d+'_i']||0) + r.estadia;
+      map[mk][d+'_u'] = (map[mk][d+'_u']||0) + r.total;
+    }
+  }
+  return Object.values(map).sort((a,b) => a.key.localeCompare(b.key));
+}
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.btn').forEach(b => {
+    b.className = 'btn';
+    const t = b.textContent.trim();
+    if (t === f) {
+      if (f==='Todos') b.classList.add('active-all');
+      else if (f==='413 C2') b.classList.add('active-413');
+      else if (f==='909 Temuco') b.classList.add('active-909');
+      else if (f==='905 Temuco') b.classList.add('active-905');
+    }
+  });
+  if (Object.keys(DATA).length > 0) renderDashboard();
+}
+
+function renderDashboard() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="kpis" id="kpis"></div>
+    <div class="charts-row">
+      <div class="card">
+        <div class="label" style="margin-bottom:12px">Ingresos por mes</div>
+        <div class="legend" id="legend-ingresos"></div>
+        <div style="position:relative;height:220px"><canvas id="chartIngresos"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:12px">Utilidad neta por mes</div>
+        <div class="legend" id="legend-utilidad"></div>
+        <div style="position:relative;height:220px"><canvas id="chartUtilidad"></canvas></div>
+      </div>
+    </div>
+    <div class="bottom-row">
+      <div class="card">
+        <div class="label" style="margin-bottom:12px">Desglose de gastos</div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="position:relative;height:180px;width:180px;flex-shrink:0"><canvas id="chartGastos"></canvas></div>
+          <div id="gastosLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="label" style="margin-bottom:16px">Comparativa por depto</div>
+        <div id="deptoComparativa"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="label" style="margin-bottom:16px">&#127942; Top 5 reservas más rentables</div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr>
+          <th>Depto</th><th>Fecha</th><th>Noches</th><th>Estadía</th><th>Gastos</th><th>Utilidad</th><th>Margen</th>
+        </tr></thead>
+        <tbody id="topTable"></tbody>
+      </table></div>
+    </div>
+    <div class="tips">
+      <div class="tip"><span style="font-size:16px">&#128161;</span><span>905 Temuco tiene el precio/noche más alto. Evalúa replicar esa estrategia en los otros deptos.</span></div>
+      <div class="tip"><span style="font-size:16px">&#128197;</span><span>Estadías largas (7+ noches) generan el mejor margen. Ofrece descuento por semana completa.</span></div>
+      <div class="tip"><span style="font-size:16px">&#129529;</span><span>Limpieza fija reduce margen en estadías cortas. Considera mínimo 2 noches por reserva.</span></div>
+      <div class="tip"><span style="font-size:16px">&#128200;</span><span>Ajusta precios dinámicamente en fines de semana y feriados para maximizar RevPAR.</span></div>
+    </div>
+    <div class="footer">Dashboard Airbnb · Datos de Google Sheets · ${new Date().toLocaleDateString('es-CL')}</div>
+  `;
+
+  const depts = activeFilter === 'Todos' ? SHEETS : [activeFilter];
+  const s = getStats(depts);
+
+  // KPIs
+  const kpiData = [
+    {label:'Ingresos Brutos', val:fmt(s.totalIngresos), sub:'estadía total', color:'#3b82f6'},
+    {label:'Utilidad Neta', val:fmt(s.totalUtilidad), sub:`margen ${s.margen.toFixed(1)}%`, color:'#10b981'},
+    {label:'Gastos Variables', val:fmt(s.totalGastos), sub:'limpieza + comisiones', color:'#f97316'},
+    {label:'Noches Arrendadas', val:s.totalNoches, sub:`${s.nReservas} reservas`, color:'#a855f7'},
+    {label:'Precio / Noche', val:fmt(s.ppcNoche), sub:'promedio', color:'#f59e0b'},
+    {label:'Cuota Mensual', val:fmt(s.cuota), sub:'crédito hipotecario', color:'#ef4444'},
+  ];
+  document.getElementById('kpis').innerHTML = kpiData.map(k => `
+    <div class="kpi" style="border-top:3px solid ${k.color}">
+      <div class="label">${k.label}</div>
+      <div class="kpi-val" style="color:${k.color}">${k.val}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`).join('');
+
+  // Charts
+  const monthly = getMonthlyData();
+  const labels = monthly.map(m => m.mes);
+
+  document.getElementById('legend-ingresos').innerHTML =
+  document.getElementById('legend-utilidad').innerHTML =
+    depts.map(d => `<span class="legend-item"><span class="legend-dot" style="background:${COLORS[d]}"></span>${d}</span>`).join('');
+
+  destroyChart('chartIngresos');
+  charts['chartIngresos'] = new Chart(document.getElementById('chartIngresos'), {
+    type: 'bar',
+    data: { labels, datasets: depts.map(d => ({
+      label: d, data: monthly.map(m => m[d+'_i']||0),
+      backgroundColor: COLORS[d], borderRadius: 3
+    }))},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:'#64748b',font:{size:10},callback: v => fmt(v)},grid:{color:'#1e293b'},border:{display:false}}
+      }}
+  });
+
+  destroyChart('chartUtilidad');
+  charts['chartUtilidad'] = new Chart(document.getElementById('chartUtilidad'), {
+    type: 'line',
+    data: { labels, datasets: depts.map(d => ({
+      label: d, data: monthly.map(m => m[d+'_u']||0),
+      borderColor: COLORS[d], backgroundColor: COLORS[d]+'33',
+      borderWidth:2, pointRadius:3, pointBackgroundColor: COLORS[d], tension:0.3
+    }))},
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}},
+      scales:{
+        x:{ticks:{color:'#64748b',font:{size:11}},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:'#64748b',font:{size:10},callback: v => fmt(v)},grid:{color:'#1e293b'},border:{display:false}}
+      }}
+  });
+
+  const pieData = [
+    {name:'Limpieza', val:s.limpieza, color:'#f97316'},
+    {name:'Comisión Airbnb', val:s.comision, color:'#3b82f6'},
+    {name:'Lavado', val:s.lavado, color:'#10b981'},
+    {name:'Otros', val:s.otros, color:'#a855f7'},
+  ].filter(x => x.val > 0);
+
+  destroyChart('chartGastos');
+  charts['chartGastos'] = new Chart(document.getElementById('chartGastos'), {
+    type: 'doughnut',
+    data: { labels: pieData.map(x=>x.name),
+      datasets:[{data: pieData.map(x=>x.val), backgroundColor: pieData.map(x=>x.color), borderWidth:0, hoverOffset:4}]},
+    options: { responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label: ctx => fmtFull(ctx.raw)}}}}
+  });
+
+  document.getElementById('gastosLegend').innerHTML = pieData.map(x => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="width:10px;height:10px;border-radius:2px;background:${x.color};flex-shrink:0"></div>
+      <div><div style="font-size:11px;color:#94a3b8">${x.name}</div><div style="font-size:13px;color:#e2e8f0">${fmt(x.val)}</div></div>
+    </div>`).join('');
+
+  // Comparativa
+  const maxIng = Math.max(...SHEETS.map(d => DATA[d] ? getStats([d]).totalIngresos : 0));
+  document.getElementById('deptoComparativa').innerHTML = SHEETS.map(d => {
+    if (!DATA[d]) return '';
+    const sd = getStats([d]);
+    const barW = Math.min(100, maxIng > 0 ? (sd.totalIngresos/maxIng)*100 : 0);
+    return `<div class="dept-row">
+      <div class="dept-meta">
+        <span style="font-size:13px;color:${COLORS[d]}">${d}</span>
+        <span style="font-size:12px;color:#94a3b8">Margen ${Math.round(sd.margen)}% · Cuota ${(sd.totalUtilidad/sd.cuota).toFixed(1)}x</span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${barW}%;background:${COLORS[d]}"></div></div>
+      <div class="dept-stats">
+        <span>Ingreso: <span style="color:#94a3b8">${fmt(sd.totalIngresos)}</span></span>
+        <span>Utilidad: <span style="color:#10b981">${fmt(sd.totalUtilidad)}</span></span>
+        <span>${sd.nReservas} reservas</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Top 5
+  let all = [];
+  for (const d of SHEETS) {
+    if (!DATA[d]) continue;
+    for (const r of DATA[d].reservas) all.push({...r, depto:d});
+  }
+  all.sort((a,b) => b.total - a.total);
+  document.getElementById('topTable').innerHTML = all.slice(0,5).map(r => {
+    const margen = r.estadia > 0 ? Math.round((r.total/r.estadia)*100) : 0;
+    return `<tr>
+      <td><span style="color:${COLORS[r.depto]};font-weight:bold">${r.depto}</span></td>
+      <td style="color:#94a3b8">${r.fecha||'—'}</td>
+      <td style="color:#94a3b8;text-align:center">${r.noches}</td>
+      <td>${fmtFull(r.estadia)}</td>
+      <td style="color:#f97316">${fmtFull(r.gastos)}</td>
+      <td style="color:#10b981;font-weight:bold">${fmtFull(r.total)}</td>
+      <td><span class="badge">${margen}%</span></td>
+    </tr>`;
+  }).join('');
+}
+
+loadAllData();
+</script>
+</body>
+</html>
