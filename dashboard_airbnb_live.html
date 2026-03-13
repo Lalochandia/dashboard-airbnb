@@ -195,7 +195,7 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjCBMJdmzeMIRE
 
 async function fetchSheet(sheetName) {
   const url = APPS_SCRIPT_URL + '?sheet=' + encodeURIComponent(sheetName);
-  const resp = await fetch(url);
+  const resp = await fetch(url, {redirect: 'follow', mode: 'cors'});
   if (!resp.ok) throw new Error('Error al cargar hoja: ' + sheetName);
   const raw = await resp.json();
   const parsed = parseSheetRows(raw);
