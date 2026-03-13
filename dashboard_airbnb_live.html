@@ -128,7 +128,7 @@ function parseSheetRows(rows) {
   // Find header row with 'Fecha llegada'
   let headerIdx = -1;
   for (let i = 0; i < rows.length; i++) {
-    if (rows[i].some(c => c.includes('Fecha llegada'))) { headerIdx = i; break; }
+    if (rows[i].some(c => String(c).includes('Fecha llegada'))) { headerIdx = i; break; }
   }
   if (headerIdx === -1) return [];
 
@@ -136,7 +136,7 @@ function parseSheetRows(rows) {
   let cuota = 0;
   for (let i = 0; i < headerIdx; i++) {
     for (let j = 0; j < rows[i].length; j++) {
-      if (rows[i][j].includes('Cuota') || rows[i][j].includes('cuota')) {
+      if (String(rows[i][j]).includes('Cuota') || String(rows[i][j]).includes('cuota')) {
         for (let k = j+1; k < rows[i].length; k++) {
           const v = parseFloat(rows[i][k].replace(/[^0-9.]/g,''));
           if (!isNaN(v) && v > 0) { cuota = v; break; }
@@ -148,7 +148,7 @@ function parseSheetRows(rows) {
   const headers = rows[headerIdx];
   const colIdx = {};
   headers.forEach((h, i) => {
-    const hl = h.toLowerCase();
+    const hl = String(h).toLowerCase();
     if (hl.includes('fecha llegada')) colIdx.fecha = i;
     else if (hl.includes('noches')) colIdx.noches = i;
     else if (hl.includes('estadía') || hl.includes('estadia')) colIdx.estadia = i;
@@ -164,19 +164,19 @@ function parseSheetRows(rows) {
   const reservas = [];
   for (let i = headerIdx + 1; i < rows.length; i++) {
     const row = rows[i];
-    const estadiaRaw = colIdx.estadia !== undefined ? row[colIdx.estadia] : '';
+    const estadiaRaw = colIdx.estadia !== undefined ? String(row[colIdx.estadia]||'') : '';
     const estadia = parseFloat(estadiaRaw.replace(/[^0-9.]/g,''));
     if (isNaN(estadia) || estadia <= 0) continue;
 
     const get = (key) => {
       if (colIdx[key] === undefined) return 0;
-      const v = parseFloat((row[colIdx[key]]||'').replace(/[^0-9.-]/g,''));
+      const v = parseFloat(String(row[colIdx[key]]||'').replace(/[^0-9.-]/g,''));
       return isNaN(v) ? 0 : v;
     };
 
     let fecha = null;
     if (colIdx.fecha !== undefined && row[colIdx.fecha]) {
-      const raw = row[colIdx.fecha].trim();
+      const raw = String(row[colIdx.fecha]).trim();
       const d = new Date(raw);
       if (!isNaN(d)) fecha = d.toISOString().slice(0,10);
     }
