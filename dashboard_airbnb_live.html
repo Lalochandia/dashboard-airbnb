@@ -191,13 +191,14 @@ function parseSheetRows(rows) {
   return { reservas, cuota };
 }
 
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzjCBMJdmzeMIRE1V_JbZP1Y8NhGa2nlupdp8Ajw_kY1ggYRFwnOGuK1oiAU68uA4CMWQ/exec';
+
 async function fetchSheet(sheetName) {
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  const url = APPS_SCRIPT_URL + '?sheet=' + encodeURIComponent(sheetName);
   const resp = await fetch(url);
-  if (!resp.ok) throw new Error(`Error al cargar hoja: ${sheetName}`);
-  const text = await resp.text();
-  const rows = parseCSV(text);
-  const parsed = parseSheetRows(rows);
+  if (!resp.ok) throw new Error('Error al cargar hoja: ' + sheetName);
+  const raw = await resp.json();
+  const parsed = parseSheetRows(raw);
   return parsed;
 }
 
