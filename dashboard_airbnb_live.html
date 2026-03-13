@@ -138,7 +138,7 @@ function parseSheetRows(rows) {
     for (let j = 0; j < rows[i].length; j++) {
       if (String(rows[i][j]).includes('Cuota') || String(rows[i][j]).includes('cuota')) {
         for (let k = j+1; k < rows[i].length; k++) {
-          const v = parseFloat(rows[i][k].replace(/[^0-9.]/g,''));
+          const v = parseFloat(String(rows[i][k]).replace(/[^0-9.]/g,''));
           if (!isNaN(v) && v > 0) { cuota = v; break; }
         }
       }
